@@ -1,0 +1,39 @@
+{
+  "name": "pegasus/sanitizer",
+  "type": "Application",
+  "description": "Vagrant Transient - application to power down all your Vagrant Instances",
+  "homepage": "https://pegasus-commerce.com",
+  "license": "MIT",
+  "authors":
+  [
+    {
+      "name": "Phil Elson",
+      "email": "phil@pegasus-commerce.com"
+    }
+  ],
+  "require":
+  {
+    "php": ">=5.5.9"
+  },
+  "require-dev":
+  {
+    "symfony/yaml": "~2.8|~3.0",
+    "behat/behat": "2.4.*@stable",
+    "kherge/box": "~2.0",
+    "monolog/monolog":"~1.13.1",
+    "phpspec/phpspec": "~2.0",
+    "squizlabs/php_codesniffer": "2.*"
+  },
+  "autoload":
+  {
+    "psr-4":
+    {
+      "Pegasus\\": "src"
+    }
+  },
+  "minimum-stability": "dev",
+  "config":
+  {
+    "bin-dir": "bin/"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "chmod": "0755",
+  "directories": [
+    "src",
+    "vendor",
+    "vendor/*"
+  ],
+  "finder": [
+    {
+      "name": "*.php",
+      "exclude": ["spec", "feature", "html", "bin", ".vagrant", ".idea"],
+      "in": "."
+    },
+    {
+      "name": "*.php",
+      "in": "vendor"
+    }
+  ],
+  "files": [
+    "vendor/autoload.php"
+  ],
+  "git-version": "0.0.1",
+  "main": "src/Application.php",
+  "output": "vagrant_transient.phar",
+  "stub": true
+}
