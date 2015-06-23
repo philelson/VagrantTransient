@@ -44,16 +44,46 @@ use Monolog\Handler\StreamHandler;
 
 class VagrantTransient extends Command
 {
+    /**
+     * This is the default file where the environments are stored.
+     */
     const DEFAULT_STORE_NAME    = "/.VagrantTransient";
 
+    /**
+     * This is the name of the VagrantFile used by Vagrant
+     */
+    const VAGRANT_FILE_NAME     = 'VagrantFile';
+
+    /**
+     * Storage name is held here
+     *
+     * @var null
+     */
     private $storeName          = null;
 
+    /**
+     * Array which holds the environments
+     *
+     * @var array
+     */
     private $environments       = array();
 
+    /**
+     * Terminal output
+     *
+     * @var null
+     */
     protected $output           = null;
 
+    /**
+     * Current working dir
+     * @var null
+     */
     protected $pwd              = null;
 
+    /**
+     * Configures the application
+     */
     protected function configure()
     {
         $this
@@ -68,31 +98,58 @@ class VagrantTransient extends Command
             );
     }
 
+    /**
+     * This method returns the name of the instance app.
+     * Must be overridden in all children
+     *
+     * @return string
+     */
     public function getName()
     {
         return 'vagrant-transient';
     }
 
+    /**
+     * This method returns the description of the instance app.
+     * Must be overridden in all children
+     *
+     * @return string
+     */
     public function getDescription()
     {
         return 'Vagrant Transient';
     }
 
+    /**
+     * This method is called before runTransient()
+     */
     public function before()
     {
         $this->loadEnvironments();
     }
 
+    /**
+     * Method runs the instance specific code.
+     */
     public function runTransient()
     {
         throw new Exception('Not Yet Implemented');
     }
 
+    /**
+     * This is the method which is called after the runTransient.
+     */
     public function after()
     {
         $this->save();
     }
 
+    /**
+     * This is the command which executes the application
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->pwd = getcwd();
@@ -104,6 +161,9 @@ class VagrantTransient extends Command
         $this->after();
     }
 
+    /**
+     * This method loads the command styles (wanring|general|notice|fatal_error)
+     */
     public function loadOutputStyles()
     {
         $style = new OutputFormatterStyle('white', 'red', array('bold'));
@@ -116,6 +176,11 @@ class VagrantTransient extends Command
         $this->output->getFormatter()->setStyle('fatal_error', $style);
     }
 
+    /**
+     * This method loads the environments from disk into an array
+     *
+     * @return array
+     */
     protected function loadEnvironments()
     {
         $this->environments = array();
@@ -135,6 +200,11 @@ class VagrantTransient extends Command
         return $this->environments;
     }
 
+    /**
+     * This method iterates over the environments writing them to disk.
+     *
+     * @return string
+     */
     public function save()
     {
         unlink($this->getFileName());
@@ -148,16 +218,30 @@ class VagrantTransient extends Command
         return $content;
     }
 
+    /**
+     * This method reloads the environments
+     */
     public function refresh()
     {
         $this->loadEnvironments();
     }
 
+    /**
+     * Returns a user specific path to ~/.VagrantTransient
+     *
+     * @return string
+     */
     public function getDefaultFileName()
     {
         return getenv("HOME").self::DEFAULT_STORE_NAME;
     }
 
+    /**
+     * This method returns the storage file name.
+     * Defaults to ~/.VagrantTransient
+     *
+     * @return null|string
+     */
     public function getFileName()
     {
         if(null == $this->storeName) {
@@ -166,22 +250,42 @@ class VagrantTransient extends Command
         return $this->storeName;
     }
 
+    /**
+     * This method purges the environments array
+     */
     public function purge()
     {
         $this->environments = array();
     }
 
+    /**
+     * This method returns the environment array
+     *
+     * @return array
+     */
     public function getEnvironments()
     {
         return $this->environments;
     }
 
+    /**
+     * This method overrides the environments array.
+     *
+     * @param array $environments
+     * @return $this
+     */
     public function setEnvironments(array $environments)
     {
         $this->environments = $environments;
         return $this;
     }
 
+    /**
+     * This method adds the environment to storage if it is not already in storage.
+     *
+     * @param $name
+     * @return $this
+     */
     public function createEnvironment($name)
     {
         $environments = $this->getEnvironments();
@@ -200,11 +304,24 @@ class VagrantTransient extends Command
         return $this;
     }
 
+    /**
+     * This method returns true if the environment exists.
+     *
+     * @param $name
+     * @return bool
+     */
     public function environmentExists($name)
     {
         return in_array($name, $this->getEnvironments());
     }
 
+    /**
+     * This method removed an environment from the system.
+     * The environment must match exectly to the path in storage.
+     *
+     * @param $name
+     * @return $this
+     */
     public function removeEnvironment($name)
     {
         $environments = $this->getEnvironments();
@@ -219,6 +336,12 @@ class VagrantTransient extends Command
         return $this;
     }
 
+    /**
+     * This method halts every Vagrant environment.
+     * This is the only method which executes a command.
+     *
+     * @return $this;
+     */
     protected function environmentsDown()
     {
         foreach($this->getEnvironments() as $environment)
@@ -244,8 +367,15 @@ class VagrantTransient extends Command
             }
         }
         chdir($this->pwd);
+        return $this;
     }
 
+    /**
+     * This method prints a line to the terminal.
+     *
+     * @param $message      Is the message
+     * @param string $type  Is the type of message (warning|notice|general)
+     */
     protected function printLn($message, $type='general')
     {
         if(null != $this->output)
@@ -255,8 +385,33 @@ class VagrantTransient extends Command
         }
     }
 
+    /**
+     * Returns the directory of this environment.
+     *
+     * @return string
+     */
     protected function getCurrentEnvironment()
     {
         return __DIR__;
+    }
+
+    /**
+     * This method iterates over the environments. If there is no VagrantFile within that environment
+     * then it is removed from the list of environments.
+     *
+     * @return $this
+     */
+    protected function cleanEnvironments()
+    {
+        $environmentsWhichExist = array();
+        foreach($this->getEnvironments() as $key => $environment)
+        {
+            if(true == file_exists($environment.DIRECTORY_SEPARATOR.self::VAGRANT_FILE_NAME))
+            {
+                $environmentsWhichExist[] = $environment;
+            }
+        }
+        $this->setEnvironments($environmentsWhichExist);
+        return $this;
     }
 }
