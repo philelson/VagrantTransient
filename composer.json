@@ -32,9 +32,5 @@
     }
   },
   "minimum-stability": "dev",
-  "config":
-  {
-    "bin-dir": "bin/"
-  },
   "bin": ["bin/vagrant_transient"]
 }
