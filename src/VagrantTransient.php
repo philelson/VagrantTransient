@@ -301,7 +301,7 @@ class VagrantTransient extends Command
      *
      * @return string
      */
-    public function getLogFileName()
+    private function _getLogFileName()
     {
         static $logFileName = null;
         if (null == $logFileName) {
@@ -318,7 +318,7 @@ class VagrantTransient extends Command
     public function purge()
     {
         $this->_environments = array();
-        return $this->environments;
+        return $this->_environments;
     }
 
     /**
@@ -334,13 +334,13 @@ class VagrantTransient extends Command
     /**
      * This method overrides the _environments array.
      *
-     * @param array $_environments Is the new array of environments
+     * @param array $environments Is the new array of environments
      *
      * @return $this
      */
-    public function setEnvironments(array $_environments)
+    public function setEnvironments(array $environments)
     {
-        $this->_environments = $_environments;
+        $this->_environments = $environments;
         return $this;
     }
 
@@ -521,7 +521,7 @@ class VagrantTransient extends Command
     public function getLog()
     {
         if (null == $this->log) {
-            $handler    = new StreamHandler($this->getLogFileName(), Logger::INFO);
+            $handler    = new StreamHandler($this->_getLogFileName(), Logger::INFO);
             $this->log  = new Logger('VagrantTransient');
             $this->log->pushHandler($handler);
         }
