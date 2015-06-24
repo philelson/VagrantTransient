@@ -20,7 +20,7 @@ Installation is performed in the prescribed manner for Vagrant plugins:
 Once this is installed Vagrant Transient can be done a couple of ways:
 
 1. by downloading the vagrant_transient.phar file and adding it into /usr/bin
-2. Add "pegasus/vagrant-transient" to composer using the current version
+2. Add "pegasuscommerce/vagrant_transient" to composer using the current version
 
 Once this has been done environments in Vagrant Transient are automatically created, destroyed and shutdown in Vagrant
 
