@@ -72,3 +72,6 @@ destroying vagrant-transient environments automatically.
 * __version__  Returns the version of this application
 
 
+##Other
+
+Feel free to report bugs, fork etc. If you want to contribute just create a pull request when you're ready.
