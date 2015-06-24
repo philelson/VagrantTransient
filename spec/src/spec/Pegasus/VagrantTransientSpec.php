@@ -87,5 +87,4 @@ class VagrantTransientSpec extends ObjectBehavior
         $this->setCurrentEnvironment('test');
         $this->getCurrentEnvironment()->shouldEqual('test');
     }
-
 }

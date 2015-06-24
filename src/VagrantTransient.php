@@ -35,16 +35,11 @@
  */
 namespace Pegasus;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -63,6 +58,11 @@ class VagrantTransient extends Command
      * This is the default file where the _environments are stored.
      */
     const DEFAULT_STORE_NAME    = "/.VagrantTransient";
+
+    /**
+     * This is the default log file
+     */
+    const DEFAULT_LOG           = "/.VagrantTransient.log";
 
     /**
      * This is the name of the VagrantFile used by Vagrant
@@ -95,6 +95,12 @@ class VagrantTransient extends Command
      * @var null
      */
     protected $pwd              = null;
+
+    /**
+     * Log instance
+     * @var null
+     */
+    protected $log              = null;
 
     /**
      * String which represents the current environment
@@ -149,6 +155,10 @@ class VagrantTransient extends Command
      */
     public function before()
     {
+        $this->pwd = getcwd();
+        $this->output = $output;
+        $this->_storeName = $input->getOption('storage');
+        $this->loadOutputStyles();
         $this->setCurrentEnvironment($this->getDefaultCurrentEnvironment());
         $this->loadEnvironments();
         return $this;
@@ -185,10 +195,6 @@ class VagrantTransient extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->pwd = getcwd();
-        $this->output = $output;
-        $this->_storeName = $input->getOption('storage');
-        $this->loadOutputStyles();
         $this->before();
         $this->runTransient();
         $this->after();
@@ -288,6 +294,20 @@ class VagrantTransient extends Command
     }
 
     /**
+     * This method returns the path to the log file
+     *
+     * @return string
+     */
+    public function getLogFileName()
+    {
+        static $logFileName = null;
+        if (null == $logFileName) {
+            $logFileName = getenv("HOME").self::DEFAULT_LOG;
+        }
+        return $logFileName;
+    }
+
+    /**
      * This method purges the _environments array
      *
      * @return environments
@@ -335,17 +355,22 @@ class VagrantTransient extends Command
         if (false == $this->environmentExists($name)) {
             $environments[] = $name;
             $changed = true;
+            $this->printLn("Environment {$name} created");
         }
         if (true == $changed) {
             $this->setEnvironments($environments);
             $environments = array_reverse($environments);
             $this->setEnvironments($environments);
+        } else {
+            $this->printLn("Environment {$name} not created");
         }
         return $this;
     }
 
     /**
      * This method returns true if the environment exists.
+     * This does not check the file system. Simply returns true if the environment
+     * is within the storage array.
      *
      * @param string $name Is the name of the environment to be checked
      *
@@ -366,11 +391,17 @@ class VagrantTransient extends Command
      */
     public function removeEnvironment($name)
     {
+        $removed = false;
         $environments = $this->getEnvironments();
         if (true == in_array($name, $environments)) {
             if (($key = array_search($name, $environments)) !== false) {
+                $this->printLn("Removing environment {$name}");
                 unset($environments[$key]);
+                $removed = true;
             }
+        }
+        if (false == $removed) {
+            $this->printLn("environment {$name} not found or removed");
         }
         $this->setEnvironments($environments);
         return $this;
@@ -386,7 +417,6 @@ class VagrantTransient extends Command
     {
         foreach ($this->getEnvironments() as $environment) {
             if (true == file_exists($environment)) {
-                //echo $environment;
                 chdir($environment);
                 $this->printLn("Shutting down vagrant in {$environment}");
                 $output = '';
@@ -420,6 +450,7 @@ class VagrantTransient extends Command
             $message = (null == $type) ? $message : "<{$type}>{$message}</{$type}>";
             $this->output->writeLn($message);
         }
+        $this->getLog()->addInfo($message, array('type' => $type));
     }
 
     /**
@@ -442,6 +473,7 @@ class VagrantTransient extends Command
      */
     public function setCurrentEnvironment($currentEnvironment)
     {
+        $this->printLn("Current Environment set to {$currentEnvironment}");
         $this->currentEnvironment = $currentEnvironment;
         return $this;
     }
@@ -467,11 +499,29 @@ class VagrantTransient extends Command
         $environmentsWhichExist = array();
         foreach ($this->getEnvironments() as $key => $environment) {
             $fileName = $environment.DIRECTORY_SEPARATOR.self::VAGRANT_FILE_NAME;
+            $msg = "Cleaning environment {$environment} from storage";
             if (true == file_exists($fileName)) {
                 $environmentsWhichExist[] = $environment;
+                $msg = "Not cleaning environment {$environment} from storage";
             }
+            $this->printLn($msg);
         }
         $this->setEnvironments($environmentsWhichExist);
         return $this;
+    }
+
+    /**
+     * This method returns a singleton instance of the logger class.
+     *
+     * @return Logger
+     */
+    public function getLog()
+    {
+        if (null == $this->log) {
+            $handler    = new StreamHandler($this->getLogFileName(), Logger::INFO);
+            $this->log  = new Logger('VagrantTransient');
+            $this->log->pushHandler($handler);
+        }
+        return $this->log;
     }
 }
