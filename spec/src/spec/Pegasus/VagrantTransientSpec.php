@@ -82,4 +82,10 @@ class VagrantTransientSpec extends ObjectBehavior
         $this->environmentExists('test')->shouldEqual(false);
     }
 
+    function it_should_allow_overriding_of_the_current_environment()
+    {
+        $this->setCurrentEnvironment('test');
+        $this->getCurrentEnvironment()->shouldEqual('test');
+    }
+
 }

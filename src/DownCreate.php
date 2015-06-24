@@ -1,17 +1,16 @@
 <?php
- /**
- *  
+/**
  * The MIT License (MIT)
- * 
- * Copyright (c) 2015  Philip Elson <phil@pegasus-commerce.com>
- * 
+ *
+ * Copyright (c) 2015 Philip Elson <phil@pegasus-commerce.com>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
 
@@ -26,24 +25,57 @@
  * Date: 23/06/15
  * Time: 11:25
  *
+ * PHP version 5.3+
+ *
+ * @category Pegasus_Utilities
+ * @package  VagrantTransient
+ * @author   Philip Elson <phil@pegasus-commerce.com>
+ * @license  MIT http://opensource.org/licenses/MIT
+ * @link     http://pegasus-commerce.com
  */
 namespace Pegasus;
 
+/**
+ * This class shuts down all vagrant _environments before adding this environment to
+ * storage
+ *
+ * @category Pegasus_Utilities
+ * @package  DownCreate
+ * @author   Philip Elson <phil@pegasus-commerce.com>
+ * @license  MIT http://opensource.org/licenses/MIT
+ * @link     http://pegasus-commerce.com
+ */
 class DownCreate extends Create
 {
+    /**
+     * This method returns the name if this application
+     *
+     * @return string
+     */
     public function getName()
     {
         return 'dc';
     }
 
+    /**
+     * This method returns the description of this application
+     *
+     * @return string
+     */
     public function getDescription()
     {
-        return 'Shuts down all vagrant instances before creating  the current environment';
+        return "Shuts down all vagrants before creating the current environment";
     }
 
+    /**
+     * This method performs the logic of this application.
+     *
+     * @return $this
+     */
     public function runTransient()
     {
         $this->environmentsDown();
         $this->createEnvironment($this->getCurrentEnvironment());
+        return $this;
     }
 }

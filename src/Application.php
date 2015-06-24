@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * The MIT License (MIT)
  *
  * Copyright (c) 2015 Philip Elson <phil@pegasus-commerce.com>
@@ -23,17 +22,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * Date: 18/05/15
+ * Date: 23/06/15
  * Time: 12:50
+ *
+ * PHP version 5.3+
+ *
+ * @category Pegasus_Utilities
+ * @package  VagrantTransient
+ * @author   Philip Elson <phil@pegasus-commerce.com>
+ * @license  MIT http://opensource.org/licenses/MIT
+ * @link     http://pegasus-commerce.com
  */
 
-if (file_exists(__DIR__.'/../vendor/autoload.php'))
-{
-    require_once __DIR__.'/../vendor/autoload.php';
-}
-else
-{
-    require_once 'phar://vagrant_transient.phar/vendor/autoload.php';
+if (file_exists(__DIR__.'/../vendor/autoload.php')) {
+    include_once __DIR__.'/../vendor/autoload.php';
+} else {
+    include_once 'phar://vagrant_transient.phar/vendor/autoload.php';
 }
 
 

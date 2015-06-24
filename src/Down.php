@@ -1,6 +1,5 @@
 <?php
  /**
- *  
  * The MIT License (MIT)
  * 
  * Copyright (c) 2015  Philip Elson <phil@pegasus-commerce.com>
@@ -26,21 +25,52 @@
  * Date: 23/06/15
  * Time: 11:25
  *
+ * PHP version 5.3+
+ *
+ * @category Pegasus_Utilities
+ * @package  VagrantTransient
+ * @author   Philip Elson <phil@pegasus-commerce.com>
+ * @license  MIT http://opensource.org/licenses/MIT
+ * @link     http://pegasus-commerce.com
  */
 namespace Pegasus;
 
+/**
+ * This class shuts down all vagrant _environments
+ *
+ * @category Pegasus_Utilities
+ * @package  Down
+ * @author   Philip Elson <phil@pegasus-commerce.com>
+ * @license  MIT http://opensource.org/licenses/MIT
+ * @link     http://pegasus-commerce.com
+ */
 class Down extends VagrantTransient
 {
+    /**
+     * This method returns the name if this application
+     *
+     * @return string
+     */
     public function getName()
     {
         return 'down';
     }
 
+    /**
+     * This method returns the description of this application
+     *
+     * @return string
+     */
     public function getDescription()
     {
         return 'Shuts down all vagrant instances';
     }
 
+    /**
+     * This method performs the logic of this application.
+     *
+     * @return $this
+     */
     public function runTransient()
     {
         $this->environmentsDown();

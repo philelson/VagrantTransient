@@ -1,6 +1,5 @@
 <?php
  /**
- *  
  * The MIT License (MIT)
  * 
  * Copyright (c) 2015  Philip Elson <phil@pegasus-commerce.com>
@@ -26,21 +25,52 @@
  * Date: 23/06/15
  * Time: 11:25
  *
+ * PHP version 5.3+
+ *
+ * @category Pegasus_Utilities
+ * @package  VagrantTransient
+ * @author   Philip Elson <phil@pegasus-commerce.com>
+ * @license  MIT http://opensource.org/licenses/MIT
+ * @link     http://pegasus-commerce.com
  */
 namespace Pegasus;
 
+/**
+ * Removes an environment from storage
+ *
+ * @category Pegasus_Utilities
+ * @package  Destroy
+ * @author   Philip Elson <phil@pegasus-commerce.com>
+ * @license  MIT http://opensource.org/licenses/MIT
+ * @link     http://pegasus-commerce.com
+ */
 class Destroy extends VagrantTransient
 {
+    /**
+     * This method returns the name if this application
+     *
+     * @return string
+     */
     public function getName()
     {
-       return 'destory';
+        return 'destory';
     }
 
+    /**
+     * This method returns the description of this application
+     *
+     * @return string
+     */
     public function getDescription()
     {
         return 'Removed environment from storage';
     }
 
+    /**
+     * This method performs the logic of this application.
+     *
+     * @return $this
+     */
     public function run()
     {
         $this->removeEnvironment($this->getCurrentEnvironment());
