@@ -151,13 +151,16 @@ class VagrantTransient extends Command
     /**
      * This method is called before runTransient()
      *
+     * @param InputInterface  $input  is the input interface
+     * @param OutputInterface $output is the output interface
+     *
      * @return $this
      */
-    public function before()
+    public function before(InputInterface $input, OutputInterface $output)
     {
-        $this->pwd = getcwd();
-        $this->output = $output;
-        $this->_storeName = $input->getOption('storage');
+        $this->pwd          = getcwd();
+        $this->output       = $output;
+        $this->_storeName   = $input->getOption('storage');
         $this->loadOutputStyles();
         $this->setCurrentEnvironment($this->getDefaultCurrentEnvironment());
         $this->loadEnvironments();
@@ -195,7 +198,7 @@ class VagrantTransient extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->before();
+        $this->before($input, $output);
         $this->runTransient();
         $this->after();
     }
@@ -207,15 +210,15 @@ class VagrantTransient extends Command
      */
     public function loadOutputStyles()
     {
-        $styleOne = array('bold');
-        $styleTwo = array('bold', 'underscore');
-        $style = new OutputFormatterStyle('white', 'red', $styleOne);
+        $styleOne   = array('bold');
+        $styleTwo   = array('bold', 'underscore');
+        $style      = new OutputFormatterStyle('white', 'red', $styleOne);
         $this->output->getFormatter()->setStyle('warning', $style);
-        $style = new OutputFormatterStyle('white', 'blue', $styleOne);
+        $style      = new OutputFormatterStyle('white', 'blue', $styleOne);
         $this->output->getFormatter()->setStyle('general', $style);
-        $style = new OutputFormatterStyle('white', 'green', $styleOne);
+        $style      = new OutputFormatterStyle('white', 'green', $styleOne);
         $this->output->getFormatter()->setStyle('notice', $style);
-        $style = new OutputFormatterStyle('white', 'red', $styleTwo);
+        $style      = new OutputFormatterStyle('white', 'red', $styleTwo);
         $this->output->getFormatter()->setStyle('fatal_error', $style);
     }
 
@@ -350,16 +353,16 @@ class VagrantTransient extends Command
      */
     public function createEnvironment($name)
     {
-        $environments = $this->getEnvironments();
-        $changed = false;
+        $environments       = $this->getEnvironments();
+        $changed            = false;
         if (false == $this->environmentExists($name)) {
             $environments[] = $name;
-            $changed = true;
+            $changed        = true;
             $this->printLn("Environment {$name} created");
         }
         if (true == $changed) {
             $this->setEnvironments($environments);
-            $environments = array_reverse($environments);
+            $environments   = array_reverse($environments);
             $this->setEnvironments($environments);
         } else {
             $this->printLn("Environment {$name} not created");
