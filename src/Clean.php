@@ -35,6 +35,9 @@
  */
 namespace Pegasus;
 
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 /**
  * Removed any unused _environments from storage
  *
@@ -63,16 +66,21 @@ class Clean extends VagrantTransient
      */
     public function getDescription()
     {
-        return 'Cleans all stake _environments';
+        return 'Cleans all store environments';
     }
 
     /**
      * This method performs the logic of this application.
      *
-     * @return $this
+     * @param InputInterface  $input  is the input interface
+     * @param OutputInterface $output is the output interface
+     *
+     * @return void
+     * @throws \Exception when not implemented
      */
-    public function runTransient()
-    {
+    public function runTransient(InputInterface $input=null,
+        OutputInterface $output=null
+    ) {
         $this->cleanEnvironments();
     }
 }

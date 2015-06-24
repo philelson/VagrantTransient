@@ -36,16 +36,16 @@ Vagrant.configure("2") do |config|
   	config.hostmanager.ignore_private_ip = true
   	config.hostmanager.include_offline = true
   	config.vm.define 'vagrant_transient' do |node|
-    	node.vm.hostname = 'vagrant_transient.dev'
-    	node.hostmanager.aliases = %w(vagrant_transient.dev)
+    	node.vm.hostname = 'vt.dev'
+    	node.hostmanager.aliases = %w(vt.dev)
   	end
 
 	#Vagrant triggers
     config.trigger.before :up do
-       run "php -f src/Application.php --up"
+       run "bin/vagrant_transient dc"
     end
 
     config.trigger.after :destroy do
-       run "php -f src/Application.php --down"
+       run "bin/vagrant_transient destroy"
     end
 end

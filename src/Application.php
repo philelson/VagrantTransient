@@ -46,6 +46,8 @@ use Pegasus\Destroy;
 use Pegasus\Down;
 use Pegasus\DownCreate;
 use Pegasus\Clean;
+use Pegasus\Migrate;
+use Pegasus\Version;
 use Symfony\Component\Console\Application as ConsoleApp;
 
 $application = new ConsoleApp();
@@ -54,4 +56,6 @@ $application->add(new Destroy());
 $application->add(new Down());
 $application->add(new DownCreate());
 $application->add(new Clean());
+$application->add(new Migrate());
+$application->add(new Version());
 $application->run();

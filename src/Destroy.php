@@ -35,6 +35,9 @@
  */
 namespace Pegasus;
 
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 /**
  * Removes an environment from storage
  *
@@ -53,7 +56,7 @@ class Destroy extends VagrantTransient
      */
     public function getName()
     {
-        return 'destory';
+        return 'destroy';
     }
 
     /**
@@ -69,10 +72,15 @@ class Destroy extends VagrantTransient
     /**
      * This method performs the logic of this application.
      *
-     * @return $this
+     * @param InputInterface  $input  is the input interface
+     * @param OutputInterface $output is the output interface
+     *
+     * @return void
+     * @throws \Exception when not implemented
      */
-    public function run()
-    {
+    public function runTransient(InputInterface $input=null,
+        OutputInterface $output=null
+    ) {
         $this->removeEnvironment($this->getCurrentEnvironment());
     }
 }
