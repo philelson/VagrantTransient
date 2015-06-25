@@ -35,6 +35,6 @@
   "bin": ["bin/vagranttransient"],
   "config":
   {
-    "bin-dir": "/bin"
+    "bin-dir": "bin"
   }
 }
