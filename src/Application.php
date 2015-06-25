@@ -43,13 +43,13 @@ if (file_exists(__DIR__.'/../vendor/autoload.php')) {
 }
 
 
-use Pegasus\Create;
-use Pegasus\Destroy;
-use Pegasus\Down;
-use Pegasus\DownCreate;
-use Pegasus\Clean;
-use Pegasus\Migrate;
-use Pegasus\Version;
+use Pegasus\Application\VagrantTransient\Create;
+use Pegasus\Application\VagrantTransient\Destroy;
+use Pegasus\Application\VagrantTransient\Down;
+use Pegasus\Application\VagrantTransient\DownCreate;
+use Pegasus\Application\VagrantTransient\Clean;
+use Pegasus\Application\VagrantTransient\Migrate;
+use Pegasus\Application\VagrantTransient\Version;
 use Symfony\Component\Console\Application as ConsoleApp;
 
 $application = new ConsoleApp();

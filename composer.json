@@ -28,7 +28,7 @@
   {
     "psr-4":
     {
-      "Pegasus\\": "src"
+      "Pegasus\\Application\\VagrantTransient\\": "src"
     }
   },
   "minimum-stability": "dev",

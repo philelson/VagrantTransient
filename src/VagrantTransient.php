@@ -33,7 +33,7 @@
  * @license  MIT http://opensource.org/licenses/MIT
  * @link     http://pegasus-commerce.com
  */
-namespace Pegasus;
+namespace Pegasus\Application\VagrantTransient;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
