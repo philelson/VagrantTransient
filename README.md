@@ -75,3 +75,5 @@ destroying vagrant-transient environments automatically.
 ##Other
 
 Feel free to report bugs, fork etc. If you want to contribute just create a pull request when you're ready.
+
+This is a PHP implementation of the original https://bitbucket.org/pegasus-projects/vagrant-transient
