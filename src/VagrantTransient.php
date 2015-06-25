@@ -57,7 +57,7 @@ class VagrantTransient extends Command
     /**
      * This is the application version
      */
-    const VERSION               = "0.1.1";
+    const VERSION               = "0.2.0";
 
     /**
      * This is the default file where the _environments are stored.
