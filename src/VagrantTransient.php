@@ -262,7 +262,7 @@ class VagrantTransient extends Command
         foreach ($tempEnvironments as $key => $value) {
             $value = trim($value);
             if (null != $value && '' != $value && false == is_array($value)) {
-                if (true == $this->_vagrentExists($value)) {
+                if (true == $this->vagrentExists($value)) {
                     $this->_environments[] = $value;
                 }
             }
@@ -419,7 +419,7 @@ class VagrantTransient extends Command
      */
     public function createEnvironment($name)
     {
-        if (false == $this->_vagrentExists($name)) {
+        if (false == $this->vagrentExists($name)) {
             $msg = self::VAGRANT_FILE_NAME." not found in {$name}, skipping";
             $this->printLn($msg, 'error');
             return;
@@ -592,7 +592,7 @@ class VagrantTransient extends Command
         foreach ($this->getEnvironments() as $key => $environment) {
 
             $msg = "Cleaning environment  from storage {$environment}";
-            if (true == $this->_vagrentExists($environment)) {
+            if (true == $this->vagrentExists($environment)) {
                 $environmentsWhichExist[] = $environment;
                 $msg = "Not cleaning from storage {$environment}";
             }
@@ -644,7 +644,7 @@ class VagrantTransient extends Command
      * 
      * @return bool
      */
-    private function _vagrentExists($environment)
+    protected function vagrentExists($environment)
     {
         $fileName = $environment.DIRECTORY_SEPARATOR.self::VAGRANT_FILE_NAME;
         return file_exists($fileName);

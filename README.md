@@ -63,13 +63,14 @@ destroying vagrant-transient environments automatically.
 
 ###Commands which are available
 
-* __clean__    Cleans all store environments
-* __create__   Adds environment to storage
-* __dc__       Shuts down all vagrants before creating the current environment
-* __destory__  Removed environment from storage
-* __down__     Shuts down all vagrant instances
-* __migrate__  Migrates config from storage to storage
-* __version__  Returns the version of this application
+* __clean__         Cleans all store environments
+* __create__        Adds environment to storage
+* __dc__            Shuts down all vagrants before creating the current environment
+* __destory__       Removed environment from storage
+* __down__          Shuts down all vagrant instances
+* __migrate__       Migrates config from storage to storage
+* __version__       Returns the version of this application
+* __environments__  Returns a list of the current environments in Vagrant Transient
 
 
 ##Other

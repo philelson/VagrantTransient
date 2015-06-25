@@ -50,6 +50,7 @@ use Pegasus\Application\VagrantTransient\DownCreate;
 use Pegasus\Application\VagrantTransient\Clean;
 use Pegasus\Application\VagrantTransient\Migrate;
 use Pegasus\Application\VagrantTransient\Version;
+use Pegasus\Application\VagrantTransient\Environments;
 use Symfony\Component\Console\Application as ConsoleApp;
 
 $application = new ConsoleApp();
@@ -60,4 +61,5 @@ $application->add(new DownCreate());
 $application->add(new Clean());
 $application->add(new Migrate());
 $application->add(new Version());
+$application->add(new Environments());
 $application->run();
