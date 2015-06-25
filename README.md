@@ -11,7 +11,7 @@ Please note that this isn't a plugin for Vagrant.
 Ensure you have downloaded and installed Vagrant 1.2+ from the
 [Vagrant downloads page](http://downloads.vagrantup.com/).
 
-__vagrant-transient__ is designed to work with the [vagrant-triggers](https://github.com/emyl/Vagrant-triggers) plugin.
+__Tagrant Transient__ is designed to work with the [vagrant-triggers](https://github.com/emyl/Vagrant-triggers) plugin.
 
 Installation is performed in the prescribed manner for Vagrant plugins:
 
@@ -36,11 +36,11 @@ Open your Vagrantfile and add the following:
 ```bash
     
     config.trigger.before :up do
-       run "bin/vagrant_transient dc"
+       run "bin/vagranttransient dc"
     end
 
     config.trigger.after :destroy do
-       run "bin/vagrant_transient destroy"
+       run "bin/vagranttransient destroy"
     end
 ```
 
