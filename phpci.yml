@@ -1,0 +1,27 @@
+build_settings:
+    verbose: false
+    prefer_symlink: false
+
+setup:
+    composer:
+        action: "install"
+
+test:
+    php_spec:
+
+complete:
+
+success:
+      hipchat_notify:
+          authToken: 123
+          room: 456
+          message: <b>%PROJECT_TITLE%</b> - build <a href="%BUILD_URI%">%BUILD%</a> passed!
+          color: green
+          notify: true
+failure:
+      hipchat_notify:
+          authToken: 123
+          room: 456
+          message: <b>%PROJECT_TITLE%</b> - build <a href="%BUILD_URI%">%BUILD%</a> failed!
+          color: red
+          notify: true
