@@ -15,7 +15,7 @@
   {
     "php": ">=5.3",
     "symfony/console": "^2.7@dev",
-    "monolog/monolog":"~1.13.1"
+    "monolog/monolog":"~1.17"
   },
   "require-dev":
   {
@@ -36,6 +36,7 @@
     "bin/vagranttransient"
   ],
   "config": {
-    "bin-dir": "bin"
+    "bin-dir": "bin",
+    "discard-changes": true
   }
 }

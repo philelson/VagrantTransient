@@ -8,7 +8,7 @@
   "finder": [
     {
       "name": "*.php",
-      "exclude": ["spec", "feature", "html", "bin", ".vagrant", ".idea", "vendor/phpspec", "vendor/behat", "vendor/composer", "vendor/doctrine", "vendor/squizlabs"],
+      "exclude": ["spec", "feature", "html", "bin", ".vagrant", ".idea", "vendor/phpspec", "vendor/behat", "vendor/composer", "vendor/doctrine", "vendor/squizlabs", "vendor/sebastian"],
       "in": "."
     },
     {
